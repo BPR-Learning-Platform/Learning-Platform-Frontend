@@ -1,0 +1,74 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [16.x]
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+      steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build:prod
+      - name: Test
+        run: npm run test:prod
+      - name: Archive build
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy_dist
+          path: dist
+      - name: Archive code coverage result
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_coverage
+          path: coverage
+          
+  deploy-test:
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: test_coverage
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          branch: main
+          folder: learning-platform
+          repository-name: BPR-Learning-Platform/Learning-Platform-Test-Results
+
+  deploy-website:
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy_dist
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: learning-platform
