@@ -1,0 +1,27 @@
+<div class="signup flex-column d-flex align-items-center justify-content-center h-100 mt-5">
+  <h2>Sign in</h2>
+  <p class="text-center">To use this awesome learning platform you need to sign in.
+    <br> So go ahead and enter your details, we will be ready to sign you in as soon as you press the button.
+  </p>
+  <p *ngIf="errorText" class="text-danger strong">{{errorText}}</p>
+  <main class="form-floating w-50">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-floating my-2">
+        <input type="email" class="form-control" id="floatingInput" [formControlName]="'email'">
+        <label for="floatingInput">Email</label>
+        <div class="text-danger" *ngIf="loginForm.invalid && emailControl?.touched && emailControl.errors">
+          <span *ngIf="emailControl.errors['required']">E-mail is required</span>
+          <span *ngIf="emailControl.errors['pattern']">Username must be an E-mail</span>
+        </div>
+      </div>
+      <div class="form-floating my-2">
+        <input type="password" class="form-control" id="floatingPassword"  [formControlName]="'password'">
+        <label for="floatingPassword">Password</label>
+        <div class="text-danger" *ngIf="loginForm.invalid && passwordControl?.touched && passwordControl.errors">
+          <span *ngIf="passwordControl.errors['minlength']">Password must have at least 8 characters</span>
+        </div>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" [disabled]="this.loginForm.invalid">Sign in</button>
+    </form>
+  </main>
+</div>
