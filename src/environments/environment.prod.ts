@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  learningPlatformApiUrl: 'https://learning-platform-server.azurewebsites.net/',
 };
