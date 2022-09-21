@@ -12,13 +12,15 @@ import {AuthenticationInterceptor} from "./authentication.interceptor";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { HttpClientModule } from '@angular/common/http';
 import { TaskComponent } from './components/task/task.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     LoginComponent,
-    TaskComponent
+    TaskComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot([

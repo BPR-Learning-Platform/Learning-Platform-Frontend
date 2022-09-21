@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
-import {Observable} from "rxjs";
+import {NEVER, Observable} from "rxjs";
+import {LPTask} from "../models/lptask.model";
 
 const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
@@ -11,8 +12,11 @@ export class LpRestService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(userId: string): Observable<any> {
-    let apiUrl = baseUrl + `users?userid=${userId}`;
-    return this.http.get<any>(apiUrl);
+  getTasks(userId: string): Observable<LPTask[]> {
+    if (userId != null) {
+      let apiUrl = `${baseUrl}tasks?userid=${userId}`;
+      return this.http.get<any>(apiUrl);
+    }
+    return NEVER;
   }
 }

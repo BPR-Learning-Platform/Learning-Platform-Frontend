@@ -8,6 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "e2e": "ng run Learning-Platform:playwright",
+    "playwright": "npx playwright test",
     "build:prod": "ng build --base-href \"https://bpr-learning-platform.github.io/Learning-Platform-Frontend/\"",
     "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
   },
@@ -38,6 +40,8 @@
     "@angular-eslint/template-parser": "14.0.3",
     "@angular/cli": "~14.2.1",
     "@angular/compiler-cli": "^14.0.0",
+    "@dot-build/serve-and-run-angular": "^1.0.2",
+    "@playwright/test": "^1.26.0",
     "@types/jasmine": "~4.0.0",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
