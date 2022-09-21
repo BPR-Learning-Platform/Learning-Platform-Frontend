@@ -104,6 +104,17 @@
               "src/**/*.html"
             ]
           }
+        },
+        "playwright": {
+          "builder": "@dot-build/serve-and-run-angular:run",
+          "options": {
+            "devServerTarget": "Learning-Platform:serve",
+            "command": "npm",
+            "args": ["run", "playwright"]
+          },
+          "configurations": {
+            "production": {}
+          }
         }
       }
     }

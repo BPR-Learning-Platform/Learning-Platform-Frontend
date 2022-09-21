@@ -17,9 +17,11 @@ export class AuthenticationService {
       {email: email, password: password},
       {observe: "response"}).pipe(map(res => {
       if (res.status === 200) {
+
         localStorage.setItem("email", email.toLowerCase());
         localStorage.setItem("token", "my-super-secret-token-from-server");
-        localStorage.setItem("name", res.body.toString());
+        localStorage.setItem("name", res.body.Name.toString());
+        localStorage.setItem("userId", res.body.UserId.toString());
       }
       return res;
     }));
@@ -36,10 +38,15 @@ export class AuthenticationService {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
     localStorage.removeItem("email");
+    localStorage.removeItem("userId");
   }
 
   isUserLoggedIn(): boolean {
     return localStorage.getItem("token") != null;
+  }
+
+  getCurrentUserId(): string | null{
+    return localStorage.getItem("userId");
   }
 
   getCurrentUser(): string | null{

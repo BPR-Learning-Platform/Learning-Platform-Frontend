@@ -95,9 +95,10 @@ describe('AuthenticationService', () => {
     service.logout();
 
     // Assert
-    expect(localStorage.removeItem).toHaveBeenCalledTimes(3)
+    expect(localStorage.removeItem).toHaveBeenCalledTimes(4)
     expect(localStorage.removeItem).toHaveBeenCalledWith("name")
     expect(localStorage.removeItem).toHaveBeenCalledWith("token")
+    expect(localStorage.removeItem).toHaveBeenCalledWith("userId")
   });
 
   it('isUserLoggedIn should be true when logged in', () => {
