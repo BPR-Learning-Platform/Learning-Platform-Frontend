@@ -68,7 +68,6 @@ describe('AuthenticationService', () => {
     const postobs = httpClient.post<any>('https://learning-platform-server.azurewebsites.net/users/signin', {status: 200, body: testData}
     );
 
-    service.handleLoginRequestErrors(postobs)
     postobs.subscribe(data =>
       expect(data).toEqual(testData));
 
@@ -84,7 +83,7 @@ describe('AuthenticationService', () => {
     expect(localStorage.setItem).toHaveBeenCalledTimes(2)
     expect(localStorage.setItem).toHaveBeenCalledWith("username", "test")
     expect(localStorage.setItem).toHaveBeenCalledWith("token", "my-super-secret-token-from-server")
-*/
+    */
   });
 
   it('should remove items when logging out', () => {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../services/authentication.service";
-import {Location} from '@angular/common';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from "@angular/router";
 
@@ -20,11 +19,12 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    if (this.authenticationService.isUserLoggedIn())
+      this.router.navigateByUrl("/").then(() => window.location.reload());
   }
 
   get emailControl(): FormControl {
@@ -41,11 +41,13 @@ export class LoginComponent implements OnInit {
     let email = this.f['email'].value
     let password = this.f['password'].value
     // @ts-ignore
-    this.authenticationService.login(email.toLowerCase(), password).subscribe(r => {
-      if (r.status === 200)
+    this.authenticationService.login(email.toLowerCase(), password).subscribe({
+      next: () => {
         this.router.navigateByUrl("/").then(() => window.location.reload());
-      else
+      },
+      error: () => {
         this.errorText = "Couldn't log you in with those credentials, please try again."
+      }
     });
   }
 }
