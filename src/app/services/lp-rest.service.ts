@@ -14,7 +14,7 @@ export class LpRestService {
 
   getTasks(userId: string): Observable<LPTask[]> {
     if (userId != null) {
-      let apiUrl = `${baseUrl}tasks/${userId}`;
+      let apiUrl = `${baseUrl}tasks?user=${userId}`;
       return this.http.get<any>(apiUrl);
     }
     return NEVER;
