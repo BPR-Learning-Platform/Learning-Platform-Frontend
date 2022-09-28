@@ -13,6 +13,8 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { HttpClientModule } from '@angular/common/http';
 import { TaskComponent } from './components/task/task.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NgxNavbarModule} from "ngx-bootstrap-navbar";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    NgxNavbarModule
   ],
   providers: [
     AuthenticationInterceptor,
