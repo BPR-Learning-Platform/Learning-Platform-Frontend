@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AuthenticationService} from "./services/authentication.service";
 import {LoginComponent} from "./components/login/login.component";
+import {NgxNavbarCollapseComponent, NgxNavbarModule} from "ngx-bootstrap-navbar";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 class RouterStub {
   url = '';
@@ -34,10 +36,10 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule.withRoutes(
           [{path: 'login', component: LoginComponent}]
-        ), HttpClientModule
+        ), HttpClientModule, BrowserAnimationsModule
       ],
       declarations: [
-        AppComponent
+        AppComponent, NgxNavbarCollapseComponent
       ],
       providers: [
         { provide: AuthenticationService, useValue: mockAuth }
