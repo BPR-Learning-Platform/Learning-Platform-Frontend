@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {LpRestService} from "../../services/lp-rest.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {LPTask} from "../../models/lptask.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 interface Alert {
   type: string;
@@ -25,6 +24,7 @@ export class TaskComponent implements OnInit {
 
   tasks: Array<LPTask> = [];
   taskIndex: number = 0;
+  correctAnswers: number = 0;
   alertToShow?: Alert = undefined;
   number = '';
 
@@ -39,19 +39,26 @@ export class TaskComponent implements OnInit {
   async getNextTask(event: any): Promise<void> {
     if (Number(event.target.value) === this.tasks[this.taskIndex].answer) {
       this.alertToShow = ALERTS[0];
+      this.correctAnswers++;
     } else {
       this.alertToShow = ALERTS[1];
     }
 
     await new Promise(f => setTimeout(f, 3000));
-    this.taskIndex++;
+    if (this.taskIndex < this.tasks.length - 1)
+      this.taskIndex++;
+    else
+      this.getTasks();
     this.number = '';
     this.alertToShow = undefined;
   }
 
   getTasks(): void{
-    this.lpRestService.getTasks(this.authService.getCurrentUserId()!).subscribe(res => {
+    const correctPercentage: number = Math.floor(this.correctAnswers / this.tasks.length * 100);
+    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage).subscribe(res => {
       this.tasks = res;
     });
+    this.correctAnswers = 0;
+    this.taskIndex = 0;
   }
 }

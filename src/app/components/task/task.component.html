@@ -1,20 +1,27 @@
-<div class="container align-items-center justify-content-center">
-  <h1 class="text-center">This is your task view ⭐</h1> <br>
-  <div *ngIf="!tasks[taskIndex]" class="container text-center">
-    <h2>There are currently no tasks for you.</h2>
-  </div>
-  <div *ngIf="tasks[taskIndex]" class="w-50 container">
-    <h3 class="text-center">Please solve: <br>{{tasks[taskIndex].exercise}} </h3>
-    <input required
-           [(ngModel)]="number"
-           [attr.disabled]="alertToShow"
-           type="text"
-           class="form-control text-center"
-           placeholder="Answer here ✅"
-           (keyup.enter)="getNextTask($event)">
+<div class="d-flex">
+  <div class="p-2 w-100 container align-items-center justify-content-center">
+    <h1 class="text-center">This is your task view ⭐</h1> <br>
+    <div *ngIf="!tasks[taskIndex]" class="container text-center">
+      <h2>There are currently no tasks for you.</h2>
+    </div>
+    <div *ngIf="tasks[taskIndex]" class="w-50 container">
+      <h3 class="text-center">Please solve: <br>{{tasks[taskIndex].exercise}} </h3>
+      <input required
+             [(ngModel)]="number"
+             [attr.disabled]="alertToShow"
+             type="text"
+             class="form-control text-center"
+             placeholder="Answer here ✅"
+             (keyup.enter)="getNextTask($event)">
 
-    <ngb-alert class="m-2" *ngIf="alertToShow" [dismissible]="false" [type]="alertToShow.type"> {{alertToShow.message}}</ngb-alert>
-  </div>
+      <ngb-alert class="m-2" *ngIf="alertToShow" [dismissible]="false" [type]="alertToShow.type"> {{alertToShow.message}}</ngb-alert>
+    </div>
 
-  <app-spinner *ngIf="alertToShow"></app-spinner>
+    <app-spinner *ngIf="alertToShow"></app-spinner>
+
+  </div>
+  <div class="p-2 flex-shrink-1">
+    <h1>Hint?</h1>
+
+  </div>
 </div>
