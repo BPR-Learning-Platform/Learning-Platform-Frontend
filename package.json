@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng run Learning-Platform:playwright",
     "playwright": "npx playwright test",
-    "build:prod": "ng build --base-href \"https://bpr-learning-platform.github.io/Learning-Platform-Frontend/\"",
+    "build:prod": "ng build --base-href \"/Learning-Platform-Frontend/\"",
     "test:prod": "ng test --browsers=ChromeHeadless --watch=false --code-coverage"
   },
   "private": true,
