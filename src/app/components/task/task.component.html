@@ -24,10 +24,10 @@
   <div class="p-2 flex-shrink-1">
     <button class="btn btn-outline-success float-end m-2" (click)="showHint = !showHint">Hint</button>
     <div *ngIf="showHint && tasks[taskIndex]" [ngSwitch]="tasks[taskIndex].type">
-      <img *ngSwitchCase="'A'" src="Learning-Platform-Frontend/assets/img/addition.png" alt="Addition strategy">
-      <img *ngSwitchCase="'S'" src="Learning-Platform-Frontend/assets/img/subtraction.png" alt="Subtraction strategy">
-      <img *ngSwitchCase="'D'" src="Learning-Platform-Frontend/assets/img/division.png" alt="Division strategy">
-      <img *ngSwitchCase="'M'" src="Learning-Platform-Frontend/assets/img/multiplication.png" alt="Multiplication strategy">
+      <img *ngSwitchCase="'A'" src="assets/img/addition.png" alt="Addition strategy">
+      <img *ngSwitchCase="'S'" src="assets/img/subtraction.png" alt="Subtraction strategy">
+      <img *ngSwitchCase="'D'" src="assets/img/division.png" alt="Division strategy">
+      <img *ngSwitchCase="'M'" src="assets/img/multiplication.png" alt="Multiplication strategy">
       <p *ngSwitchDefault> No hint available for this task type.</p>
     </div>
   </div>
