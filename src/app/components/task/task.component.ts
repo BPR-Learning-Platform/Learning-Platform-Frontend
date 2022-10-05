@@ -27,6 +27,7 @@ export class TaskComponent implements OnInit {
   correctAnswers: number = 0;
   alertToShow?: Alert = undefined;
   number = '';
+  showHint: boolean = false;
 
   constructor(private lpRestService: LpRestService,
               private authService: AuthenticationService) { }

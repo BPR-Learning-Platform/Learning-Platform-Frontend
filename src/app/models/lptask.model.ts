@@ -4,4 +4,5 @@ export interface LPTask {
   difficulty: number;
   exercise: string;
   answer: number;
+  type: string;
 }
