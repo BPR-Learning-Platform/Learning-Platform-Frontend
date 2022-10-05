@@ -15,6 +15,7 @@ import { TaskComponent } from './components/task/task.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxNavbarModule} from "ngx-bootstrap-navbar";
+import {NgParticlesModule} from "ng-particles";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {NgxNavbarModule} from "ngx-bootstrap-navbar";
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
-    NgxNavbarModule
+    NgxNavbarModule,
+    NgParticlesModule
   ],
   providers: [
     AuthenticationInterceptor,

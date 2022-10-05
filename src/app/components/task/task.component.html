@@ -4,13 +4,14 @@
     <div *ngIf="!tasks[taskIndex]" class="container text-center">
       <h2>There are currently no tasks for you.</h2>
     </div>
-    <div *ngIf="tasks[taskIndex]" class="w-50 container">
+    <div *ngIf="tasks[taskIndex]" class="w-75 container">
       <h3 class="text-center">Please solve: <br>{{tasks[taskIndex].exercise}} </h3>
       <input required
+             autocapitalize="none"
              [(ngModel)]="number"
              [attr.disabled]="alertToShow"
              type="text"
-             class="form-control text-center"
+             class="form-control text-center mx-auto"
              placeholder="Answer here ✅"
              (keyup.enter)="getNextTask($event)">
 
