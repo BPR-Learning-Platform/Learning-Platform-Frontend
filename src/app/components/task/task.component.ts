@@ -54,7 +54,9 @@ export class TaskComponent implements OnInit {
   }
 
   getTasks(): void{
-    const correctPercentage: number = Math.floor(this.correctAnswers / this.tasks.length * 100);
+    let correctPercentage: number = Math.floor(this.correctAnswers / this.tasks.length * 100);
+    if (isNaN(correctPercentage))
+      correctPercentage = 0;
     this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage).subscribe(res => {
       this.tasks = res;
     });
