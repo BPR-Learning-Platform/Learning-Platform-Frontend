@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication.service";
-import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
+import { Chart, ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import {default as Annotation} from 'chartjs-plugin-annotation';
 import {LpRestService} from "../../services/lp-rest.service";
