@@ -1,7 +1,6 @@
 export interface SpecificStudentStatistic {
   statisticId: string;
   studentId: string;
-  gradeId: string;
   score: number;
   timeStamp: string;
 }
