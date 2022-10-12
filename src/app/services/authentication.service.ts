@@ -45,6 +45,10 @@ export class AuthenticationService {
     return localStorage.getItem("token") != null;
   }
 
+  isUserTeacher(): boolean {
+    return true;
+  }
+
   getCurrentUserId(): string | null{
     return localStorage.getItem("userId");
   }
