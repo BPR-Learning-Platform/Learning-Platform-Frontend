@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,13 +8,16 @@ import {RouterModule} from "@angular/router";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthenticationInterceptor} from "./authentication.interceptor";
-import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {CommonModule, HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { HttpClientModule } from '@angular/common/http';
 import { TaskComponent } from './components/task/task.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxNavbarModule} from "ngx-bootstrap-navbar";
 import {NgParticlesModule} from "ng-particles";
+import {NgChartsModule} from "ng2-charts";
+import { MainStatisticsComponent } from './components/main-statistics/main-statistics.component';
+import { SpecificStudentStatisticsComponent } from './components/specific-student-statistics/specific-student-statistics.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import {NgParticlesModule} from "ng-particles";
     PageNotFoundComponent,
     LoginComponent,
     TaskComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    MainStatisticsComponent,
+    SpecificStudentStatisticsComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot([
@@ -36,7 +40,9 @@ import {NgParticlesModule} from "ng-particles";
     FormsModule,
     BrowserAnimationsModule,
     NgxNavbarModule,
-    NgParticlesModule
+    NgParticlesModule,
+    NgChartsModule,
+    CommonModule
   ],
   providers: [
     AuthenticationInterceptor,

@@ -16,10 +16,12 @@
             <p class="pt-2 pe-2">Hi👋 {{name}}</p>
           </li>
           <li class="nav-item" *ngIf="isLoggedIn">
-            <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>
+            <a class="nav-link" routerLink="/task">Tasks</a>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <a class="nav-link" href="#/main-statistics">Statistics</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Some Link to Statistic</a>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>
           </li>
       </ul>
     </ngx-navbar-collapse>
