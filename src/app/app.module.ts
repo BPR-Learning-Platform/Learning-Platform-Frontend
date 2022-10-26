@@ -17,7 +17,7 @@ import {NgxNavbarModule} from "ngx-bootstrap-navbar";
 import {NgParticlesModule} from "ng-particles";
 import {NgChartsModule} from "ng2-charts";
 import { MainStatisticsComponent } from './components/main-statistics/main-statistics.component';
-import { SpecificStudentStatisticsComponent } from './components/specific-student-statistics/specific-student-statistics.component';
+import { SpecificStatisticsComponent } from './components/specific-statistics/specific-statistics.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { SpecificStudentStatisticsComponent } from './components/specific-studen
     TaskComponent,
     SpinnerComponent,
     MainStatisticsComponent,
-    SpecificStudentStatisticsComponent
+    SpecificStatisticsComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot([

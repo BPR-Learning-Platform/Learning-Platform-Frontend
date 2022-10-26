@@ -4,7 +4,7 @@ import { MainStatisticsComponent } from './main-statistics.component';
 import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "../../app-routing.module";
 import {AuthenticationService} from "../../services/authentication.service";
-import {SpecificStudentStatisticsComponent} from "../specific-student-statistics/specific-student-statistics.component";
+import {SpecificStatisticsComponent} from "../specific-statistics/specific-statistics.component";
 import {Chart} from "chart.js";
 import {BaseChartDirective} from "ng2-charts";
 
@@ -19,7 +19,7 @@ describe('MainStatisticsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientModule, AppRoutingModule],
       providers: [AuthenticationService],
-      declarations: [ MainStatisticsComponent, SpecificStudentStatisticsComponent ]
+      declarations: [ MainStatisticsComponent, SpecificStatisticsComponent ]
     })
     .compileComponents();
 
