@@ -1,23 +1,26 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication.service";
 import { Chart, ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import {default as Annotation} from 'chartjs-plugin-annotation';
 import {LpRestService} from "../../services/lp-rest.service";
-import {AssignedGrades, Student} from "../../models/specific-student-statistic";
+import {AssignedGrades, Student} from "../../models/specific-statistics.model";
 
 @Component({
-  selector: 'app-specific-student-statistics',
-  templateUrl: './specific-student-statistics.component.html',
-  styleUrls: ['./specific-student-statistics.component.css']
+  selector: 'app-specific-statistics',
+  templateUrl: './specific-statistics.component.html',
+  styleUrls: ['./specific-statistics.component.css']
 })
-export class SpecificStudentStatisticsComponent implements OnInit {
+export class SpecificStatisticsComponent implements OnInit {
 
+  gradeOption!: string;
   gradeSelected: boolean = false;
-  assignedGrades: AssignedGrades[] = [];
-
+  assignedGrades!: AssignedGrades[];
   students: Student[] = [];
+
+  @Input() info: any;
+  @Output() infoChange = new EventEmitter<any>();
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
@@ -31,9 +34,35 @@ export class SpecificStudentStatisticsComponent implements OnInit {
     this.getMyAssignedStudents();
   }
 
+  changeInfo(data: number[], name: string): void {
+    if (data.length === 0){
+      this.info = {
+        name: "",
+        average: "not available",
+        highest: "not available",
+        lowest: "not available",
+        trend: "not available"
+      }
+      this.infoChange.emit(this.info);
+      return;
+    }
+    this.info = {
+      name: name,
+      average: (data.reduce((a, b) => a + b, 0) / data.length).toFixed(2),
+      highest: Math.max.apply(Math, data).toFixed(2),
+      lowest: Math.min.apply(Math, data).toFixed(2),
+      trend: "not available"
+    }
+    this.infoChange.emit(this.info);
+  }
+
   onStudentChosen(student: string): void {
     if(student !== "default")
       this.getSpecificStudentStatistic(student);
+    else {
+      this.onGradeSelected(this.gradeOption)
+      this.updateStudentLine([],  "");
+    }
   }
 
   onGradeSelected(value: string) {
@@ -41,22 +70,36 @@ export class SpecificStudentStatisticsComponent implements OnInit {
     if(this.gradeSelected){
       // @ts-ignore
       this.students = this.assignedGrades.find(grade => grade.gradeId === value).students;
+
+      this.lpRestService.getSpecificGradeStatistic(value).subscribe(
+        (data) => {
+          let chartData: number[] = [];
+          let chartLabels: string[] = [];
+          data.forEach((statistic) => {
+            chartData.push(statistic.score);
+            chartLabels.push(this.getWeekNumber(statistic.timeStamp));
+          });
+          // @ts-ignore
+          let label = this.assignedGrades.find(grade => grade.gradeId === value).gradeName
+          this.updateGradeLine(chartData, chartLabels, label);
+          this.changeInfo(chartData, label);
+        }
+      );
     }
-    this.updateChart([], [], "");
+    this.updateGradeLine([],[],"");
   }
 
   getSpecificStudentStatistic(studentId: string): void {
     this.lpRestService.getSpecificStudentStatistic(studentId).subscribe(
       (data) => {
         let chartData: number[] = [];
-        let chartLabels: string[] = [];
         data.forEach((statistic) => {
           chartData.push(statistic.score);
-          chartLabels.push(this.getWeekNumber(statistic.timeStamp));
         });
         // @ts-ignore
         let label = this.students.find((student: { userId: string; }) => student.userId === studentId).name;
-        this.updateChart(chartData, chartLabels, label);
+        this.updateStudentLine(chartData, label);
+        this.changeInfo(chartData, label);
       });
   }
 
@@ -67,13 +110,21 @@ export class SpecificStudentStatisticsComponent implements OnInit {
       });
   }
 
-  updateChart(data: any[], labels: any[], label: string): void {
+  updateGradeLine(data: any[], labels: any[], label: string): void {
     this.lineChartData.datasets[0].data = data;
     this.lineChartData.datasets[0].label = label;
     this.lineChartData.labels = labels;
     if (this.chart !== undefined)
       this.chart.update();
   }
+
+  updateStudentLine(data: any[], label: string): void {
+    this.lineChartData.datasets[1].data = data;
+    this.lineChartData.datasets[1].label = label;
+    if (this.chart !== undefined)
+      this.chart.update();
+  }
+
   getWeekNumber(timeStamp: string): string{
     let currentDate = new Date(timeStamp);
     let startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -89,6 +140,13 @@ export class SpecificStudentStatisticsComponent implements OnInit {
         label: '',
         backgroundColor: 'transparent',
         fill: 'origin',
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+
       }
     ],
     labels: [] = [],
@@ -110,13 +168,17 @@ export class SpecificStudentStatisticsComponent implements OnInit {
       },
       'y-axis-0':
         {
+          suggestedMax: 10,
+          suggestedMin: 0,
+          beginAtZero: true,
+          display: true,
           position: 'left',
           title: {
             display: true,
             text: 'Score'
           }
         },
-    }
+    },
   };
 
   public lineChartType: ChartType = 'line';

@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 import {NEVER, Observable} from "rxjs";
 import {LPTask} from "../models/lptask.model";
-import {AssignedGrades, SpecificStudentStatistic} from "../models/specific-student-statistic";
+import {AssignedGrades, SpecificGradeStatistic, SpecificStudentStatistic} from "../models/specific-statistics.model";
 
 const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
@@ -24,6 +24,14 @@ export class LpRestService {
   getSpecificStudentStatistic(studentId: string): Observable<SpecificStudentStatistic[]> {
     if (studentId != null) {
       let apiUrl = `${baseUrl}statistics?studentid=${studentId}`;
+      return this.http.get<any>(apiUrl);
+    }
+    return NEVER;
+  }
+
+  getSpecificGradeStatistic(gradeId: string): Observable<SpecificGradeStatistic[]> {
+    if (gradeId != null) {
+      let apiUrl = `${baseUrl}statistics?gradeid=${gradeId}`;
       return this.http.get<any>(apiUrl);
     }
     return NEVER;
