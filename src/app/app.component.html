@@ -15,9 +15,9 @@
           <li class="nav-item" *ngIf="isLoggedIn">
             <p class="pt-2 pe-2">Hi👋 {{name}}</p>
           </li>
-          <li class="nav-item" *ngIf="isLoggedIn">
+          <li class="nav-item" *ngIf="isLoggedIn && isUserStudent()">
             <a class="nav-link" routerLink="/task">Tasks</a>
-          <li class="nav-item" *ngIf="isLoggedIn">
+          <li class="nav-item" *ngIf="isLoggedIn && isUserTeacher()">
             <a class="nav-link" href="#/main-statistics">Statistics</a>
           </li>
           <li class="nav-item" *ngIf="isLoggedIn">

@@ -22,6 +22,7 @@ export class AuthenticationService {
         localStorage.setItem("token", "my-super-secret-token-from-server");
         localStorage.setItem("name", res.body.Name.toString());
         localStorage.setItem("userId", res.body.UserId.toString());
+        localStorage.setItem("type", res.body.Type.toString());
       }
       return res;
     }));
@@ -39,6 +40,7 @@ export class AuthenticationService {
     localStorage.removeItem("name");
     localStorage.removeItem("email");
     localStorage.removeItem("userId");
+    localStorage.removeItem("type");
   }
 
   isUserLoggedIn(): boolean {
@@ -46,7 +48,7 @@ export class AuthenticationService {
   }
 
   isUserTeacher(): boolean {
-    return true;
+    return localStorage.getItem("type") === "T";
   }
 
   getCurrentUserId(): string | null{
@@ -59,5 +61,9 @@ export class AuthenticationService {
 
   getCurrentEmail(): string | null{
     return localStorage.getItem("email");
+  }
+
+  isUserStudent():boolean {
+    return localStorage.getItem("type") === "S";
   }
 }

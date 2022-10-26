@@ -23,8 +23,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.authenticationService.isUserLoggedIn())
-      this.router.navigateByUrl("/").then(() => window.location.reload());
+    if (this.authenticationService.isUserLoggedIn()) {
+      if (this.authenticationService.isUserTeacher())
+        this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
+      else
+        this.router.navigateByUrl("/").then(() => window.location.reload());
+    }
   }
 
   get emailControl(): FormControl {
@@ -43,7 +47,10 @@ export class LoginComponent implements OnInit {
     // @ts-ignore
     this.authenticationService.login(email.toLowerCase(), password).subscribe({
       next: () => {
-        this.router.navigateByUrl("/").then(() => window.location.reload());
+        if (this.authenticationService.isUserTeacher())
+          this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
+        else
+          this.router.navigateByUrl("/").then(() => window.location.reload());
       },
       error: () => {
         this.errorText = "Couldn't log you in with those credentials, please try again."

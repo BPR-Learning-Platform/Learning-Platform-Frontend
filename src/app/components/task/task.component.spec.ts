@@ -12,8 +12,10 @@ describe('TaskComponent', () => {
   let fixture: ComponentFixture<TaskComponent>;
 
   beforeEach(async () => {
+
+    localStorage.setItem("type", "S");
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, AppRoutingModule],
       providers: [AuthenticationService, LpRestService],
       declarations: [ TaskComponent ]
     })
@@ -26,5 +28,6 @@ describe('TaskComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    localStorage.removeItem("type");
   });
 });

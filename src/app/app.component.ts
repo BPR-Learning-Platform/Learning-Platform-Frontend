@@ -28,4 +28,12 @@ export class AppComponent implements OnInit{
     this.authService.logout();
     this.router.navigateByUrl("/login");
   }
+
+  isUserTeacher(): boolean {
+    return this.authService.isUserTeacher()
+  }
+
+  isUserStudent() {
+    return this.authService.isUserStudent()
+  }
 }
