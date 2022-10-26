@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LpRestService} from "../../services/lp-rest.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {LPTask} from "../../models/lptask.model";
+import {Router} from "@angular/router";
 
 interface Alert {
   type: string;
@@ -30,9 +31,12 @@ export class TaskComponent implements OnInit {
   showHint: boolean = false;
 
   constructor(private lpRestService: LpRestService,
+              private router: Router,
               private authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    if (!this.authService.isUserStudent())
+      this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
     this.getTasks();
 
   }
