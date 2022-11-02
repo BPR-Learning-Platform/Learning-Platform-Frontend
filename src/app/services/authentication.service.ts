@@ -47,10 +47,6 @@ export class AuthenticationService {
     return localStorage.getItem("token") != null;
   }
 
-  isUserTeacher(): boolean {
-    return localStorage.getItem("type") === "T";
-  }
-
   getCurrentUserId(): string | null{
     return localStorage.getItem("userId");
   }
@@ -63,7 +59,7 @@ export class AuthenticationService {
     return localStorage.getItem("email");
   }
 
-  isUserStudent():boolean {
-    return localStorage.getItem("type") === "S";
+  isUserRole(type: string): boolean {
+    return localStorage.getItem("type") === type;
   }
 }

@@ -35,7 +35,7 @@ export class TaskComponent implements OnInit {
               private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    if (!this.authService.isUserStudent())
+    if (!this.authService.isUserRole("S"))
       this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
     this.getTasks();
 
@@ -58,13 +58,18 @@ export class TaskComponent implements OnInit {
     this.alertToShow = undefined;
   }
 
-  getTasks(): void{
+  getTasks(): void {
+    const taskIds = [];
     let correctPercentage: number = Math.floor(this.correctAnswers / this.tasks.length * 100);
     if (isNaN(correctPercentage))
       correctPercentage = 0;
-    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage).subscribe(res => {
+    for (let task of this.tasks)
+      taskIds.push(task.taskId);
+
+    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage, taskIds).subscribe(res => {
       this.tasks = res;
     });
+
     this.correctAnswers = 0;
     this.taskIndex = 0;
   }
