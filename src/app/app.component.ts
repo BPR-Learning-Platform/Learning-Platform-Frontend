@@ -29,11 +29,7 @@ export class AppComponent implements OnInit{
     this.router.navigateByUrl("/login");
   }
 
-  isUserTeacher(): boolean {
-    return this.authService.isUserTeacher()
-  }
-
-  isUserStudent() {
-    return this.authService.isUserStudent()
+  isUserRole(type: string): boolean {
+    return this.authService.isUserRole(type)
   }
 }

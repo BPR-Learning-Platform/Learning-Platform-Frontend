@@ -1,5 +1,5 @@
 export interface LPTask {
-  taskId: string;
+  taskId: number;
   step: number;
   difficulty: number;
   exercise: string;

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authenticationService.isUserLoggedIn()) {
-      if (this.authenticationService.isUserTeacher())
+      if (this.authenticationService.isUserRole("T"))
         this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
       else
         this.router.navigateByUrl("/").then(() => window.location.reload());
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     // @ts-ignore
     this.authenticationService.login(email.toLowerCase(), password).subscribe({
       next: () => {
-        if (this.authenticationService.isUserTeacher())
+        if (this.authenticationService.isUserRole("T"))
           this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
         else
           this.router.navigateByUrl("/").then(() => window.location.reload());

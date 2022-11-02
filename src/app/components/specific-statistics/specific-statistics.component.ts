@@ -29,7 +29,7 @@ export class SpecificStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authenticationService.isUserTeacher())
+    if (!this.authenticationService.isUserRole("T"))
       this.router.navigateByUrl("/").then(() => window.location.reload());
     this.getMyAssignedStudents();
   }
