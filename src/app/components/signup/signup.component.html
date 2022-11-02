@@ -1,0 +1,63 @@
+<div class="signup flex-column d-flex align-items-center justify-content-center h-100 mt-5">
+  <h2>Create User</h2>
+  <p class="text-center">bla.bla.</p>
+  <p *ngIf="status" class="text-{{status.type}} strong">{{status.text}}</p>
+  <main class="form-floating w-50">
+    <form [formGroup]="signupForm" (ngSubmit)="signup()">
+
+      <div class="form-floating my-2">
+        <input type="string" class="form-control" id="floatingInputName" [formControlName]="'name'">
+        <label for="floatingInputName">Name</label>
+        <div class="text-danger" *ngIf="signupForm.invalid && nameControl?.touched && nameControl.errors">
+          <span *ngIf="nameControl.errors['required']">name is required</span>
+          <span *ngIf="nameControl.errors['minlength']">name must have at least 4 characters</span>
+        </div>
+      </div>
+
+      <div class="form-floating my-2">
+        <input type="email" class="form-control" id="floatingInput" [formControlName]="'email'">
+        <label for="floatingInput">Email</label>
+        <div class="text-danger" *ngIf="signupForm.invalid && emailControl?.touched && emailControl.errors">
+          <span *ngIf="emailControl.errors['required']">email is required</span>
+          <span *ngIf="emailControl.errors['pattern']">it must be a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-floating my-2">
+        <input type="password" class="form-control" id="floatingPassword" [formControlName]="'password'">
+        <label for="floatingPassword">Password</label>
+        <div class="text-danger" *ngIf="signupForm.invalid && passwordControl?.touched && passwordControl.errors">
+          <span *ngIf="passwordControl.errors['minlength']">Password must have at least 8 characters</span>
+        </div>
+      </div>
+
+      <div class="form-floating my-2" >
+        <select class="form-control" id="floatingType" [formControlName]="'type'">
+          <option value="S">Student</option>
+          <option value="T">Teacher</option>
+        </select>
+        <label for="floatingType">Type</label>
+        <div class="text-danger" *ngIf="signupForm.invalid && typeControl?.touched && typeControl.errors">
+          <span *ngIf="typeControl.errors['required']">You must select a type</span>
+        </div>
+      </div>
+
+      <div *ngIf="typeControl.value" class="form-floating my-2">
+        <select
+                [attr.multiple]="typeControl.value === 'T' ? 'value' : null"
+                class="form-control h-100"
+                id="floatingAssignedGrades"
+                [formControlName]="'assignedGrades'">
+          <option *ngFor="let grade of grades" [value]="grade.id">{{grade.name}}</option>
+        </select>
+        <label for="floatingAssignedGrades">Assigned grade(s)</label>
+        <div class="text-danger" *ngIf="signupForm.invalid && assignedGradesControl?.touched && assignedGradesControl.errors">
+          <span *ngIf="assignedGradesControl.errors['required']">You must assign a grade</span>
+        </div>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="this.signupForm.invalid">Create User</button>
+    </form>
+  </main>
+
+</div>

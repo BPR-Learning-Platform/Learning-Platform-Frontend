@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {environment} from "../../environments/environment.prod";
+import {NewUser, User} from "../models/user.model";
 
 const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
@@ -11,36 +12,28 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<User> {
     let apiUrl = baseUrl + `users/signin`;
     return this.http.post<any>(apiUrl,
       {email: email, password: password},
       {observe: "response"}).pipe(map(res => {
+        let user: User = res.body;
       if (res.status === 200) {
-
-        localStorage.setItem("email", email.toLowerCase());
         localStorage.setItem("token", "my-super-secret-token-from-server");
-        localStorage.setItem("name", res.body.Name.toString());
-        localStorage.setItem("userId", res.body.UserId.toString());
-        localStorage.setItem("type", res.body.Type.toString());
+        localStorage.setItem("user", JSON.stringify(user));
       }
-      return res;
+      return user;
     }));
   }
 
-  signup(name: string, email: string, password: string): Observable<any> {
+  signup(user: NewUser): Observable<any> {
     let apiUrl = baseUrl + `users`;
-    return this.http.post<any>(apiUrl,
-      {name: name, email: email, password: password},
-      {observe: "response"});
+    return this.http.post<any>(apiUrl, user,{observe: "response"});
   }
 
   logout(): void {
     localStorage.removeItem("token");
-    localStorage.removeItem("name");
-    localStorage.removeItem("email");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("type");
+    localStorage.removeItem("user");
   }
 
   isUserLoggedIn(): boolean {
@@ -48,18 +41,18 @@ export class AuthenticationService {
   }
 
   getCurrentUserId(): string | null{
-    return localStorage.getItem("userId");
+    return JSON.parse(localStorage.getItem("user") || "{}").userId;
   }
 
   getCurrentUser(): string | null{
-    return localStorage.getItem("name");
+    return JSON.parse(localStorage.getItem("user") || "{}").name || null;
   }
 
   getCurrentEmail(): string | null{
-    return localStorage.getItem("email");
+    return JSON.parse(localStorage.getItem("user") || "{}").email;
   }
 
   isUserRole(type: string): boolean {
-    return localStorage.getItem("type") === type;
+    return JSON.parse(localStorage.getItem("user") || "{}").type === type;
   }
 }

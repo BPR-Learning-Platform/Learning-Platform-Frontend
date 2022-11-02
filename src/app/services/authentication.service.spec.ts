@@ -88,24 +88,36 @@ describe('AuthenticationService', () => {
 
   it('should remove items when logging out', () => {
     // Arrange
-    localStorage.setItem("token", "my-super-secret-token-from-server");
-    localStorage.setItem("name", "fakename");
+    localStorage.setItem("token", "my-super-secret-token-from-server");localStorage.setItem("user",
+      JSON.stringify({
+        name: "batman is my name",
+        email: "em",
+        type: "T",
+        assignedGradesIds: [2, 3],
+        score: 0,
+        userId: "221"
+      }));
 
     // Act
     service.logout();
 
     // Assert
-    expect(localStorage.removeItem).toHaveBeenCalledTimes(5)
-    expect(localStorage.removeItem).toHaveBeenCalledWith("name")
+    expect(localStorage.removeItem).toHaveBeenCalledTimes(2)
+    expect(localStorage.removeItem).toHaveBeenCalledWith("user")
     expect(localStorage.removeItem).toHaveBeenCalledWith("token")
-    expect(localStorage.removeItem).toHaveBeenCalledWith("userId")
-    expect(localStorage.removeItem).toHaveBeenCalledWith("type")
   });
 
   it('isUserLoggedIn should be true when logged in', () => {
     // Arrange
-    localStorage.setItem("token", "my-super-secret-token-from-server");
-    localStorage.setItem("name", "fakename");
+    localStorage.setItem("token", "my-super-secret-token-from-server");localStorage.setItem("user",
+      JSON.stringify({
+        name: "batman is my name",
+        email: "em",
+        type: "T",
+        assignedGradesIds: [2, 3],
+        score: 0,
+        userId: "221"
+      }));
 
     // Act
     let loggedIn = service.isUserLoggedIn();
@@ -129,13 +141,21 @@ describe('AuthenticationService', () => {
   it('getCurrentUser should return username', () => {
     // Arrange
     localStorage.setItem("token", "my-super-secret-token-from-server");
-    localStorage.setItem("name", "batman is my name");
+    localStorage.setItem("user",
+      JSON.stringify({
+        name: "batman is my name",
+        email: "em",
+        type: "T",
+        assignedGradesIds: [2, 3],
+        score: 0,
+        userId: "221"
+      }));
 
     // Act
     let username = service.getCurrentUser();
 
     // Assert
     expect(username).toEqual("batman is my name");
-    expect(localStorage.getItem).toHaveBeenCalledWith("name")
+    expect(localStorage.getItem).toHaveBeenCalledWith("user")
   })
 });

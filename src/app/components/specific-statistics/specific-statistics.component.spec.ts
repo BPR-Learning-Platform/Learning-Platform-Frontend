@@ -12,7 +12,15 @@ describe('SpecificStatisticsComponent', () => {
   let fixture: ComponentFixture<SpecificStatisticsComponent>;
 
   beforeEach(async () => {
-    localStorage.setItem("type", "T");
+    localStorage.setItem("user",
+      JSON.stringify({
+        name: "batman is my name",
+        email: "em",
+        type: "T",
+        assignedGradesIds: [2, 3],
+        score: 0,
+        userId: "221"
+      }));
     await TestBed.configureTestingModule({
       imports: [HttpClientModule, AppRoutingModule ],
       providers: [LpRestService, AuthenticationService, BaseChartDirective],
@@ -27,6 +35,6 @@ describe('SpecificStatisticsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    localStorage.removeItem("type");
+    localStorage.removeItem("user");
   });
 });
