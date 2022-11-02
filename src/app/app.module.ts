@@ -18,6 +18,7 @@ import {NgParticlesModule} from "ng-particles";
 import {NgChartsModule} from "ng2-charts";
 import { MainStatisticsComponent } from './components/main-statistics/main-statistics.component';
 import { SpecificStatisticsComponent } from './components/specific-statistics/specific-statistics.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SpecificStatisticsComponent } from './components/specific-statistics/sp
     TaskComponent,
     SpinnerComponent,
     MainStatisticsComponent,
-    SpecificStatisticsComponent
+    SpecificStatisticsComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot([
