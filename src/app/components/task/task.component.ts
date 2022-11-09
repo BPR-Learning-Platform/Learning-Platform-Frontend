@@ -3,6 +3,7 @@ import {LpRestService} from "../../services/lp-rest.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {LPTask, LPTaskScore} from "../../models/lptask.model";
 import {Router} from "@angular/router";
+import { emojisplosion, emojisplosions } from "emojisplosion";
 
 interface Alert {
   type: string;
@@ -39,13 +40,25 @@ export class TaskComponent implements OnInit {
   }
 
   async getNextTask(event: any): Promise<void> {
+    const { cancel } = emojisplosions({
+      emojiCount: () => Math.random() * 50 + 50,
+      emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🦄'],
+      physics: {
+        gravity: 0.1,
+        rotationDeceleration: 0.99,
+      },
+      uniqueness: 3,
+    });
+
+    setTimeout(cancel, 4000);
+
     if (Number(event.target.value) === this.tasks[this.taskIndex].answer) {
       this.alertToShow = ALERTS[0];
       this.correct.push(this.tasks[this.taskIndex].taskId);
     } else
         this.alertToShow = ALERTS[1];
 
-    await new Promise(f => setTimeout(f, 3000));
+    await new Promise(f => setTimeout(f, 4000));
     if (this.taskIndex < this.tasks.length - 1)
       this.taskIndex++;
     else
