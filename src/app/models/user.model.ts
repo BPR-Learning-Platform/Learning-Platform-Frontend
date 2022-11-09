@@ -7,15 +7,6 @@ export interface User {
   userId: string;
 }
 
-export interface NewUser {
-  name: string;
-  email: string;
-  password: string;
-  type: string;
-  assignedGradeIds: number[];
-}
-
-
 export interface AllGrades{
   name: string;
   id: number;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
-import {NEVER, Observable} from "rxjs";
+import {EMPTY, Observable} from "rxjs";
 import {LPTask} from "../models/lptask.model";
 import {AssignedGrades, SpecificGradeStatistic, SpecificStudentStatistic} from "../models/specific-statistics.model";
 
@@ -18,7 +18,7 @@ export class LpRestService {
       let apiUrl = `${baseUrl}tasks?userid=${userId}&correct=${numberCorrect}&taskids=${taskIds}`;
       return this.http.get<any>(apiUrl);
     }
-    return NEVER;
+    return EMPTY;
   }
 
   getSpecificStudentStatistic(studentId: string): Observable<SpecificStudentStatistic[]> {
@@ -26,7 +26,7 @@ export class LpRestService {
       let apiUrl = `${baseUrl}statistics?studentid=${studentId}`;
       return this.http.get<any>(apiUrl);
     }
-    return NEVER;
+    return EMPTY;
   }
 
   getSpecificGradeStatistic(gradeId: string): Observable<SpecificGradeStatistic[]> {
@@ -34,7 +34,7 @@ export class LpRestService {
       let apiUrl = `${baseUrl}statistics?gradeid=${gradeId}`;
       return this.http.get<any>(apiUrl);
     }
-    return NEVER;
+    return EMPTY;
   }
 
   getMyAssignedStudents(teacherId: string | null): Observable<AssignedGrades[]> {
@@ -42,6 +42,6 @@ export class LpRestService {
       let apiUrl = `${baseUrl}grades?teacherid=${teacherId}`;
       return this.http.get<any>(apiUrl);
     }
-    return NEVER;
+    return EMPTY;
   }
 }

@@ -24,11 +24,8 @@ const ALERTS: Alert[] = [{
 export class TaskComponent implements OnInit {
 
   tasks: Array<LPTask> = [];
-  taskIndex: number = 0;
-  correctAnswers: number = 0;
   alertToShow?: Alert = undefined;
-  number = '';
-  showHint: boolean = false;
+  taskIndex: number = 0; correctAnswers: number = 0; answer = ''; showHint: boolean = false;
 
   constructor(private lpRestService: LpRestService,
               private router: Router,
@@ -38,24 +35,20 @@ export class TaskComponent implements OnInit {
     if (!this.authService.isUserRole("S"))
       this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
     this.getTasks();
-
   }
 
   async getNextTask(event: any): Promise<void> {
     if (Number(event.target.value) === this.tasks[this.taskIndex].answer) {
       this.alertToShow = ALERTS[0];
       this.correctAnswers++;
-    } else {
-      this.alertToShow = ALERTS[1];
-    }
+    } else
+        this.alertToShow = ALERTS[1];
 
     await new Promise(f => setTimeout(f, 3000));
     if (this.taskIndex < this.tasks.length - 1)
       this.taskIndex++;
     else
       this.getTasks();
-    this.number = '';
-    this.alertToShow = undefined;
   }
 
   getTasks(): void {
@@ -69,7 +62,12 @@ export class TaskComponent implements OnInit {
     this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage, taskIds).subscribe(res => {
       this.tasks = res;
     });
+    this.reset();
+  }
 
+  reset(): void{
+    this.answer = '';
+    this.alertToShow = undefined;
     this.correctAnswers = 0;
     this.taskIndex = 0;
   }
