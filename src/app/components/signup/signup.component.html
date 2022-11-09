@@ -45,7 +45,7 @@
         <mat-select multiple
           class="form-control h-100"
           [formControl]="assignedGrades">
-          <mat-option *ngFor="let grade of grades" [value]="grade.id">{{grade.name}}</mat-option>
+          <mat-option *ngFor="let grade of grades" [value]="grade.gradeId">{{grade.gradeName}}</mat-option>
         </mat-select>
         <label>Assigned grade(s)</label>
       </div>
@@ -53,11 +53,10 @@
       <div class="form-floating my-2" *ngIf="typeControl.value && typeControl.value === 'S'">
         <mat-select
                     class="form-control h-100"
-                    id="floatingAssignedGrades"
                     [formControl]="assignedGrades">
-          <mat-option *ngFor="let grade of grades" [value]="grade.id">{{grade.name}}</mat-option>
+          <mat-option *ngFor="let grade of grades" [value]="grade.gradeId">{{grade.gradeName}}</mat-option>
         </mat-select>
-        <label for="floatingAssignedGrades">Assigned grade</label>
+        <label>Assigned grade</label>
       </div>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="this.assignedGrades.invalid || this.signupForm.invalid">Create User</button>
