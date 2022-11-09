@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LpRestService} from "../../services/lp-rest.service";
 import {AuthenticationService} from "../../services/authentication.service";
-import {LPTask} from "../../models/lptask.model";
+import {LPTask, LPTaskScore} from "../../models/lptask.model";
 import {Router} from "@angular/router";
 
 interface Alert {
@@ -25,7 +25,8 @@ export class TaskComponent implements OnInit {
 
   tasks: Array<LPTask> = [];
   alertToShow?: Alert = undefined;
-  taskIndex: number = 0; correctAnswers: number = 0; answer = ''; showHint: boolean = false;
+  taskIndex: number = 0; answer = ''; showHint: boolean = false;
+  correct: number[] = [];
 
   constructor(private lpRestService: LpRestService,
               private router: Router,
@@ -40,7 +41,7 @@ export class TaskComponent implements OnInit {
   async getNextTask(event: any): Promise<void> {
     if (Number(event.target.value) === this.tasks[this.taskIndex].answer) {
       this.alertToShow = ALERTS[0];
-      this.correctAnswers++;
+      this.correct.push(this.tasks[this.taskIndex].taskId);
     } else
         this.alertToShow = ALERTS[1];
 
@@ -55,20 +56,70 @@ export class TaskComponent implements OnInit {
 
   getTasks(): void {
     const taskIds = [];
-    let correctPercentage: number = Math.floor(this.correctAnswers / this.tasks.length * 100);
-    if (isNaN(correctPercentage))
-      correctPercentage = 0;
     for (let task of this.tasks)
       taskIds.push(task.taskId);
-
-    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, correctPercentage, taskIds).subscribe(res => {
+    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, this.getScore(), taskIds).subscribe(res => {
       this.tasks = res;
     });
     this.reset();
   }
 
   reset(): void{
-    this.correctAnswers = 0;
+    this.correct = [];
     this.taskIndex = 0;
+  }
+
+  getScore(): LPTaskScore {
+    let score: LPTaskScore;
+    let mCount = 0, aCount = 0, sCount = 0, dCount = 0, mCorrect = 0, aCorrect = 0, sCorrect = 0, dCorrect = 0;
+    this.tasks.forEach(task => {
+      switch (task.type) {
+        case "M": {
+          mCount++;
+          if (this.correct.includes(task.taskId))
+            mCorrect++;
+          break;
+        }
+        case "A": {
+          aCount++;
+          if (this.correct.includes(task.taskId))
+            aCorrect++;
+          break;
+        }
+        case "S": {
+          sCount++;
+          if (this.correct.includes(task.taskId))
+            sCorrect++;
+          break;
+        }
+        case "D": {
+          dCount++;
+          if (this.correct.includes(task.taskId))
+            dCorrect++;
+          break;
+        }
+        default: break;
+      }
+    });
+
+    score = {
+      A: {
+        count: aCount,
+        percentage: Math.floor(aCorrect / aCount * 100)
+      },
+      M: {
+        count: mCount,
+        percentage: Math.floor(mCorrect / mCount * 100)
+      },
+      S: {
+        count: sCount,
+        percentage: Math.floor(sCorrect / sCount * 100)
+      },
+      D: {
+        count: dCount,
+        percentage: Math.floor(dCorrect / dCount * 100)
+      }
+    }
+    return score;
   }
 }
