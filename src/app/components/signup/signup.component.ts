@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit {
     if (name != null && email != null && password != null && type != null) {
       let user = {
         name: name,
-        email: email,
+        email: email.toLowerCase(),
         password: password,
         type: type,
         assignedGradeIds: this.assignedGrades.value,

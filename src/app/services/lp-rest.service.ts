@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 import {EMPTY, Observable} from "rxjs";
-import {LPTask} from "../models/lptask.model";
+import {LPTask, LPTaskScore} from "../models/lptask.model";
 import {AssignedGrades, SpecificGradeStatistic, SpecificStudentStatistic} from "../models/specific-statistics.model";
 import {AllGrades} from "../models/user.model";
 
@@ -14,9 +14,9 @@ export class LpRestService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(userId: string, numberCorrect: number, taskIds: number[]): Observable<LPTask[]> {
+  getTasks(userId: string, score: LPTaskScore, taskIds: number[]): Observable<LPTask[]> {
     if (userId != null) {
-      let apiUrl = `${baseUrl}tasks?userid=${userId}&correct=${numberCorrect}&taskids=${taskIds}`;
+      let apiUrl = `${baseUrl}tasks?userid=${userId}&correct=${JSON.stringify(score)}&taskids=${taskIds}`;
       return this.http.get<any>(apiUrl);
     }
     return EMPTY;
