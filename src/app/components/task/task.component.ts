@@ -49,6 +49,8 @@ export class TaskComponent implements OnInit {
       this.taskIndex++;
     else
       this.getTasks();
+    this.answer = '';
+    this.alertToShow = undefined;
   }
 
   getTasks(): void {
@@ -66,8 +68,6 @@ export class TaskComponent implements OnInit {
   }
 
   reset(): void{
-    this.answer = '';
-    this.alertToShow = undefined;
     this.correctAnswers = 0;
     this.taskIndex = 0;
   }
