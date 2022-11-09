@@ -29,13 +29,12 @@
     "bootstrap": "^5.2.1",
     "chart.js": "^3.9.1",
     "chartjs-plugin-annotation": "^2.0.1",
+    "emojisplosion": "^2.6.1",
     "ng-particles": "^3.3.3",
     "ng2-charts": "^4.0.1",
     "ngx-bootstrap-navbar": "^14.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "tsparticles": "^2.3.4",
-    "tsparticles-engine": "^2.3.3",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
