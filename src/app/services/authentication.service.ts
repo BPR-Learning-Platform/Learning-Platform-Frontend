@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {environment} from "../../environments/environment.prod";
-import {NewUser, User} from "../models/user.model";
+import { User } from "../models/user.model";
 
 const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
@@ -26,7 +26,7 @@ export class AuthenticationService {
     }));
   }
 
-  signup(user: NewUser): Observable<any> {
+  signup(user: Partial<User>): Observable<any> {
     let apiUrl = baseUrl + `users`;
     return this.http.post<any>(apiUrl, user,{observe: "response"});
   }
@@ -46,10 +46,6 @@ export class AuthenticationService {
 
   getCurrentUser(): string | null{
     return JSON.parse(localStorage.getItem("user") || "{}").name || null;
-  }
-
-  getCurrentEmail(): string | null{
-    return JSON.parse(localStorage.getItem("user") || "{}").email;
   }
 
   isUserRole(type: string): boolean {

@@ -68,8 +68,7 @@ export class SpecificStatisticsComponent implements OnInit {
   onGradeSelected(value: string) {
     this.gradeSelected = value !== "default";
     if(this.gradeSelected){
-      // @ts-ignore
-      this.students = this.assignedGrades.find(grade => grade.gradeId === value).students;
+      this.students = this.assignedGrades.find(grade => grade.gradeId === value)!.students;
 
       this.lpRestService.getSpecificGradeStatistic(value).subscribe(
         (data) => {
@@ -79,8 +78,7 @@ export class SpecificStatisticsComponent implements OnInit {
             chartData.push(statistic.score);
             chartLabels.push(this.getWeekNumber(statistic.timeStamp));
           });
-          // @ts-ignore
-          let label = this.assignedGrades.find(grade => grade.gradeId === value).gradeName
+          let label = this.assignedGrades.find(grade => grade.gradeId === value)!.gradeName
           this.updateGradeLine(chartData, chartLabels, label);
           this.changeInfo(chartData, label);
         }
@@ -96,8 +94,7 @@ export class SpecificStatisticsComponent implements OnInit {
         data.forEach((statistic) => {
           chartData.push(statistic.score);
         });
-        // @ts-ignore
-        let label = this.students.find((student: { userId: string; }) => student.userId === studentId).name;
+        let label = this.students.find((student: { userId: string; }) => student.userId === studentId)!.name;
         this.updateStudentLine(chartData, label);
         this.changeInfo(chartData, label);
       });
