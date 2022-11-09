@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment.prod";
 import {EMPTY, Observable} from "rxjs";
 import {LPTask, LPTaskScore} from "../models/lptask.model";
 import {AssignedGrades, SpecificGradeStatistic, SpecificStudentStatistic} from "../models/specific-statistics.model";
+import {AllGrades} from "../models/user.model";
 
 const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
@@ -43,5 +44,10 @@ export class LpRestService {
       return this.http.get<any>(apiUrl);
     }
     return EMPTY;
+  }
+
+  getAllGrades(): Observable<AllGrades[]> {
+      let apiUrl = `${baseUrl}grades`;
+      return this.http.get<any>(apiUrl);
   }
 }

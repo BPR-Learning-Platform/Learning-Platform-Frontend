@@ -8,6 +8,6 @@ export interface User {
 }
 
 export interface AllGrades{
-  name: string;
-  id: number;
+  gradeId: number;
+  gradeName: string;
 }

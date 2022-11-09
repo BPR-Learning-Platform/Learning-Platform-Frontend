@@ -19,6 +19,7 @@ import {NgChartsModule} from "ng2-charts";
 import { MainStatisticsComponent } from './components/main-statistics/main-statistics.component';
 import { SpecificStatisticsComponent } from './components/specific-statistics/specific-statistics.component';
 import { SignupComponent } from './components/signup/signup.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -31,21 +32,21 @@ import { SignupComponent } from './components/signup/signup.component';
     SpecificStatisticsComponent,
     SignupComponent
   ],
-  imports: [
-    BrowserModule, RouterModule.forRoot([
-      {path: '**', component: PageNotFoundComponent},
-    ]),
-    HttpClientModule,
-    AppRoutingModule,
-    NgbModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    NgxNavbarModule,
-    NgParticlesModule,
-    NgChartsModule,
-    CommonModule
-  ],
+    imports: [
+        BrowserModule, RouterModule.forRoot([
+            {path: '**', component: PageNotFoundComponent},
+        ]),
+        HttpClientModule,
+        AppRoutingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NgxNavbarModule,
+        NgParticlesModule,
+        NgChartsModule,
+        CommonModule, MatSelectModule
+    ],
   providers: [
     AuthenticationInterceptor,
     {provide : LocationStrategy , useClass: HashLocationStrategy}
