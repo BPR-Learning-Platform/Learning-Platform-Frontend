@@ -71,12 +71,17 @@ export class SignupComponent implements OnInit {
     let password = this.f['password'].value
     let type = this.f['type'].value
     if (name != null && email != null && password != null && type != null) {
+      let grades: any;
+      if (type === 'S')
+        grades = [this.assignedGrades.value];
+      else
+        grades = this.assignedGrades.value;
       let user = {
         name: name,
         email: email.toLowerCase(),
         password: password,
         type: type,
-        assignedGradeIds: this.assignedGrades.value,
+        assignedGradeIds: grades,
       }
 
       this.authenticationService.signup(user).subscribe(r => {

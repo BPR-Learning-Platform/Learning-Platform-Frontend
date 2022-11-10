@@ -1,13 +1,15 @@
+import {LPTaskScore} from "./lptask.model";
+
 export interface SpecificStudentStatistic {
   statisticId: string;
   studentId: string;
-  score: number;
+  score: { a: number, d: number, m: number, s: number };
   timeStamp: string;
 }
 
 export interface SpecificGradeStatistic {
   statisticId: string;
-  score: number;
+  score: { a: number, d: number, m: number, s: number };
   timeStamp: string;
 }
 

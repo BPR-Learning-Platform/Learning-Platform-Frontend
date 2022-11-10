@@ -61,7 +61,10 @@ export class SpecificStatisticsComponent implements OnInit {
       this.getSpecificStudentStatistic(student);
     else {
       this.onGradeSelected(this.gradeOption)
-      this.updateStudentLine([],  "");
+      this.updateStudentLine([],  "", 1);
+      this.updateStudentLine([],  "", 2);
+      this.updateStudentLine([],  "", 3);
+      this.updateStudentLine([],  "", 4);
     }
   }
 
@@ -72,10 +75,11 @@ export class SpecificStatisticsComponent implements OnInit {
 
       this.lpRestService.getSpecificGradeStatistic(value).subscribe(
         (data) => {
+          console.log(data);
           let chartData: number[] = [];
           let chartLabels: string[] = [];
           data.forEach((statistic) => {
-            chartData.push(statistic.score);
+            chartData.push(statistic.score.a);
             chartLabels.push(this.getWeekNumber(statistic.timeStamp));
           });
           let label = this.assignedGrades.find(grade => grade.gradeId === value)!.gradeName
@@ -90,13 +94,23 @@ export class SpecificStatisticsComponent implements OnInit {
   getSpecificStudentStatistic(studentId: string): void {
     this.lpRestService.getSpecificStudentStatistic(studentId).subscribe(
       (data) => {
-        let chartData: number[] = [];
+        console.log(data);
+        let chartDataAddition: number[] = [];
+        let chartDataMultiplication: number[] = [];
+        let chartDataSubtraction: number[] = [];
+        let chartDataDivision: number[] = [];
         data.forEach((statistic) => {
-          chartData.push(statistic.score);
+          chartDataAddition.push(statistic.score.a);
+          chartDataMultiplication.push(statistic.score.m);
+          chartDataSubtraction.push(statistic.score.s);
+          chartDataDivision.push(statistic.score.d);
         });
         let label = this.students.find((student: { userId: string; }) => student.userId === studentId)!.name;
-        this.updateStudentLine(chartData, label);
-        this.changeInfo(chartData, label);
+        this.updateStudentLine(chartDataAddition, label + " Addition", 1);
+        this.updateStudentLine(chartDataSubtraction, label + " Subtraction", 2);
+        this.updateStudentLine(chartDataMultiplication, label + " Multiplication", 3);
+        this.updateStudentLine(chartDataDivision, label + " Division", 4);
+        this.changeInfo(chartDataAddition, label);
       });
   }
 
@@ -115,9 +129,9 @@ export class SpecificStatisticsComponent implements OnInit {
       this.chart.update();
   }
 
-  updateStudentLine(data: any[], label: string): void {
-    this.lineChartData.datasets[1].data = data;
-    this.lineChartData.datasets[1].label = label;
+  updateStudentLine(data: any[], label: string, type: number): void {
+    this.lineChartData.datasets[type].data = data;
+    this.lineChartData.datasets[type].label = label;
     if (this.chart !== undefined)
       this.chart.update();
   }
@@ -143,7 +157,24 @@ export class SpecificStatisticsComponent implements OnInit {
         label: '',
         backgroundColor: 'transparent',
         fill: 'origin',
-
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
       }
     ],
     labels: [] = [],
