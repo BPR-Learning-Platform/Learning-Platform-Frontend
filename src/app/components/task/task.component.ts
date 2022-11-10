@@ -41,10 +41,10 @@ export class TaskComponent implements OnInit {
 
   async getNextTask(event: any): Promise<void> {
     const { cancel } = emojisplosions({
-      emojiCount: () => Math.random() * 50 + 50,
+      emojiCount: () => Math.random() * 10 + 10,
       emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🦄'],
       physics: {
-        gravity: 0.1,
+        gravity: 0.3,
         rotationDeceleration: 0.99,
       },
       uniqueness: 3,
