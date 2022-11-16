@@ -96,7 +96,7 @@ export const lineChartOptions: ChartConfiguration['options'] = {
     },
     'y-axis-0':
       {
-        suggestedMax: 10,
+        suggestedMax: 4,
         suggestedMin: 0,
         beginAtZero: true,
         display: true,

@@ -1,8 +1,10 @@
 <div class="m-2 p-2 row">
-  <select class="form-select ms-2 me-4 w-auto" #grade (change)="onGradeSelected(grade.value)">
+  <select class="form-select ms-2 me-4 w-auto col" #grade (change)="onGradeSelected(grade.value)">
     <option [value]="'default'">Pick a grade</option>
     <option *ngFor="let grade of assignedGrades" [value]="grade.gradeId">{{grade.gradeName}}</option>
   </select>
+
+  <p class="col fst-italic">The grade selected will be compared to all other grades on the same step</p>
 </div>
 <div>
   <canvas style="height: auto" baseChart

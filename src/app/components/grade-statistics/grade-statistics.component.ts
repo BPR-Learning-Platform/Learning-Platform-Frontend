@@ -18,7 +18,7 @@ export class GradeStatisticsComponent implements OnInit {
   gradeSelected: boolean = false;
   assignedGrades!: AssignedGrades[];
   lineChartData = JSON.parse(JSON.stringify(lineChartData)) as typeof lineChartData;
-  lineChartOptions = JSON.parse(JSON.stringify(lineChartOptions)) as typeof lineChartOptions;
+  lineChartOptions = lineChartOptions;
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
@@ -56,7 +56,7 @@ export class GradeStatisticsComponent implements OnInit {
 
           this.lpRestService.getAllGradesStatistics(value, grade.step).subscribe(
             (stat) => {
-              let label = "step " + grade.step;
+              let label = "Step " + grade.step;
               this.updateLine(stat.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", 5);
               this.updateLine(stat.map(statistic => statistic.score.a), label + " Addition", 6);
               this.updateLine(stat.map(statistic => statistic.score.s), label + " Subtraction", 7);

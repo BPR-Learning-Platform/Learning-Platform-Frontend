@@ -21,7 +21,7 @@ export class SpecificStatisticsComponent implements OnInit {
   students: Student[] = [];
 
   lineChartData = JSON.parse(JSON.stringify(lineChartData)) as typeof lineChartData;
-  lineChartOptions = JSON.parse(JSON.stringify(lineChartOptions)) as typeof lineChartOptions;
+  lineChartOptions =  lineChartOptions;
 
   @Input() info: any;
   @Output() infoChange = new EventEmitter<any>();
