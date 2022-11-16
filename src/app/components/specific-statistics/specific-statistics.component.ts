@@ -209,7 +209,6 @@ export class SpecificStatisticsComponent implements OnInit {
       }
     ],
     labels: [] = [],
-
   };
 
   public lineChartOptions: ChartConfiguration['options'] = {
@@ -238,6 +237,16 @@ export class SpecificStatisticsComponent implements OnInit {
           }
         },
     },
+    plugins: {
+      legend: {
+        onClick: (evt, legendItem, legend) => {
+          legend.chart.data.datasets.forEach(dataset => {
+            if (dataset.label?.includes(legendItem.text.substring(legendItem.text.length - 8, legendItem.text.length)))
+              dataset.hidden = !dataset.hidden;
+          });
+          legend.chart.update();
+      }}
+    }
   };
 
   public lineChartType: ChartType = 'line';
