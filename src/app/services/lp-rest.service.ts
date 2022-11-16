@@ -15,7 +15,7 @@ export class LpRestService {
   constructor(private http: HttpClient) { }
 
   getTasks(userId: string, score: LPTaskScore, taskIds: number[]): Observable<LPTask[]> {
-    if (userId != null) {
+    if (userId !== null) {
       let apiUrl = `${baseUrl}tasks?userid=${userId}&correct=${JSON.stringify(score)}&taskids=${taskIds}`;
       return this.http.get<any>(apiUrl);
     }
@@ -23,7 +23,7 @@ export class LpRestService {
   }
 
   getSpecificStudentStatistic(studentId: string): Observable<SpecificStudentStatistic[]> {
-    if (studentId != null) {
+    if (studentId !== null) {
       let apiUrl = `${baseUrl}statistics?studentid=${studentId}`;
       return this.http.get<any>(apiUrl);
     }
@@ -31,7 +31,7 @@ export class LpRestService {
   }
 
   getSpecificGradeStatistic(gradeId: string): Observable<SpecificGradeStatistic[]> {
-    if (gradeId != null) {
+    if (gradeId !== null) {
       let apiUrl = `${baseUrl}statistics?gradeid=${gradeId}`;
       return this.http.get<any>(apiUrl);
     }
@@ -39,7 +39,7 @@ export class LpRestService {
   }
 
   getMyAssignedStudents(teacherId: string | null): Observable<AssignedGrades[]> {
-    if (teacherId != null) {
+    if (teacherId !== null) {
       let apiUrl = `${baseUrl}grades?teacherid=${teacherId}`;
       return this.http.get<any>(apiUrl);
     }
@@ -49,5 +49,13 @@ export class LpRestService {
   getAllGrades(): Observable<AllGrades[]> {
       let apiUrl = `${baseUrl}grades`;
       return this.http.get<any>(apiUrl);
+  }
+
+  getAllGradesStatistics(gradeId: string, step: string): Observable<SpecificGradeStatistic[]> {
+    if (gradeId !== null) {
+      let apiUrl = `${baseUrl}statistics?gradeid=${gradeId}&step=${step}`;
+      return this.http.get<any>(apiUrl);
+    }
+    return EMPTY;
   }
 }

@@ -20,6 +20,7 @@ import { MainStatisticsComponent } from './components/main-statistics/main-stati
 import { SpecificStatisticsComponent } from './components/specific-statistics/specific-statistics.component';
 import { SignupComponent } from './components/signup/signup.component';
 import {MatSelectModule} from "@angular/material/select";
+import { GradeStatisticsComponent } from './components/grade-statistics/grade-statistics.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {MatSelectModule} from "@angular/material/select";
     SpinnerComponent,
     MainStatisticsComponent,
     SpecificStatisticsComponent,
-    SignupComponent
+    SignupComponent,
+    GradeStatisticsComponent
   ],
     imports: [
         BrowserModule, RouterModule.forRoot([

@@ -22,6 +22,7 @@ export interface AssignedGrades {
   gradeId: string;
   gradeName: string;
   students: Student[];
+  step: string;
 }
 
 export interface StatisticInfo {
