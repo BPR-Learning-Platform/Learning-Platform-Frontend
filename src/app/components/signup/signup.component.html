@@ -1,7 +1,10 @@
-<div class="signup flex-column d-flex align-items-center justify-content-center h-100 mt-5">
-  <h2>Create User</h2>
-  <p class="text-center">bla.bla.</p>
-  <p *ngIf="status" class="text-{{status.type}} strong">{{status.text}}</p>
+<div class="flex-column d-flex align-items-center justify-content-center mt-5">
+  <h2>Create New User</h2>
+  <div *ngIf="status" style="height: 3em;" class="card w-50 card-block d-flex bg-{{status.type}}">
+    <div class="card-body align-items-center d-flex justify-content-center">
+      <p *ngIf="status" class="text-white strong text-center">{{status.text}}</p>
+    </div>
+  </div>
   <main class="form-floating w-50">
     <form [formGroup]="signupForm" (ngSubmit)="signup()">
 

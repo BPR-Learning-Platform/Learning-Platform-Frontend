@@ -84,13 +84,28 @@ export class SignupComponent implements OnInit {
         assignedGradeIds: grades,
       }
 
-      this.authenticationService.signup(user).subscribe(r => {
-          if (r.status === 201)
+      this.authenticationService.signup(user).subscribe({
+        next: r => {
+          if (r.status === 201) {
             this.status = {text: "User created successfully", type: "success"};
+            this.signupForm.reset();
+            this.assignedGrades.reset();
+            this.resetStatus().then(r => {})
+          }
+        },
+        error: err => {
+          if (err.status === 403)
+            this.status = {text: "An user with that email already exists", type: "danger"};
           else
-            this.status = {text: "Error", type: "danger"};
-        });
+            this.status = {text: "Server error, try again later", type: "danger"};
+        }
+      });
     }
+  }
+
+  async resetStatus() {
+    await new Promise(f => setTimeout(f, 4000));
+    this.status = null;
   }
 
 }
