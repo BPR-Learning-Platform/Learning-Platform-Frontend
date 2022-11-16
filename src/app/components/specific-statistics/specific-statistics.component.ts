@@ -51,7 +51,7 @@ export class SpecificStatisticsComponent implements OnInit {
       average: (data.reduce((a, b) => a + b, 0) / data.length).toFixed(2),
       highest: Math.max.apply(Math, data).toFixed(2),
       lowest: Math.min.apply(Math, data).toFixed(2),
-      trend: "not available"
+      trend: (((data[data.length - 1] - data[data.length - 2]) / data[data.length - 2]) * 100).toFixed(2) + "%"
     }
     this.infoChange.emit(this.info);
   }
@@ -61,10 +61,9 @@ export class SpecificStatisticsComponent implements OnInit {
       this.getSpecificStudentStatistic(student);
     else {
       this.onGradeSelected(this.gradeOption)
-      this.updateStudentLine([],  "", 1);
-      this.updateStudentLine([],  "", 2);
-      this.updateStudentLine([],  "", 3);
-      this.updateStudentLine([],  "", 4);
+      for (let i = 0; i < 5; i++) {
+        this.updateStudentLine([], "", 5 + i);
+      }
     }
   }
 
@@ -75,42 +74,32 @@ export class SpecificStatisticsComponent implements OnInit {
 
       this.lpRestService.getSpecificGradeStatistic(value).subscribe(
         (data) => {
-          console.log(data);
-          let chartData: number[] = [];
-          let chartLabels: string[] = [];
-          data.forEach((statistic) => {
-            chartData.push(statistic.score.a);
-            chartLabels.push(this.getWeekNumber(statistic.timeStamp));
-          });
           let label = this.assignedGrades.find(grade => grade.gradeId === value)!.gradeName
-          this.updateGradeLine(chartData, chartLabels, label);
-          this.changeInfo(chartData, label);
+          this.updateStudentLine(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", 0);
+          this.updateStudentLine(data.map(statistic => statistic.score.a), label + " Addition", 1);
+          this.updateStudentLine(data.map(statistic => statistic.score.s), label + " Subtraction", 2);
+          this.updateStudentLine(data.map(statistic => statistic.score.m), label + " Multiplication", 3);
+          this.updateStudentLine(data.map(statistic => statistic.score.d), label + " Division", 4);
+          this.updateLabel(data.map(statistic => this.getWeekNumber(statistic.timeStamp)));
+          this.changeInfo(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label);
         }
       );
     }
-    this.updateGradeLine([],[],"");
+    for (let i = 0; i < 5; i++) {
+      this.updateGradeLine([],"", i);
+    }
   }
 
   getSpecificStudentStatistic(studentId: string): void {
     this.lpRestService.getSpecificStudentStatistic(studentId).subscribe(
       (data) => {
-        console.log(data);
-        let chartDataAddition: number[] = [];
-        let chartDataMultiplication: number[] = [];
-        let chartDataSubtraction: number[] = [];
-        let chartDataDivision: number[] = [];
-        data.forEach((statistic) => {
-          chartDataAddition.push(statistic.score.a);
-          chartDataMultiplication.push(statistic.score.m);
-          chartDataSubtraction.push(statistic.score.s);
-          chartDataDivision.push(statistic.score.d);
-        });
         let label = this.students.find((student: { userId: string; }) => student.userId === studentId)!.name;
-        this.updateStudentLine(chartDataAddition, label + " Addition", 1);
-        this.updateStudentLine(chartDataSubtraction, label + " Subtraction", 2);
-        this.updateStudentLine(chartDataMultiplication, label + " Multiplication", 3);
-        this.updateStudentLine(chartDataDivision, label + " Division", 4);
-        this.changeInfo(chartDataAddition, label);
+        this.updateStudentLine(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", 5);
+        this.updateStudentLine(data.map(statistic => statistic.score.a), label + " Addition", 6);
+        this.updateStudentLine(data.map(statistic => statistic.score.s), label + " Subtraction", 7);
+        this.updateStudentLine(data.map(statistic => statistic.score.m), label + " Multiplication", 8);
+        this.updateStudentLine(data.map(statistic => statistic.score.d), label + " Division", 9);
+        this.changeInfo(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label);
       });
   }
 
@@ -121,10 +110,14 @@ export class SpecificStatisticsComponent implements OnInit {
       });
   }
 
-  updateGradeLine(data: any[], labels: any[], label: string): void {
-    this.lineChartData.datasets[0].data = data;
-    this.lineChartData.datasets[0].label = label;
+  updateLabel(labels: any[]): void{
     this.lineChartData.labels = labels;
+    if (this.chart !== undefined)
+      this.chart.update();
+  }
+  updateGradeLine(data: any[], label: string, type: number): void {
+    this.lineChartData.datasets[type].data = data;
+    this.lineChartData.datasets[type].label = label;
     if (this.chart !== undefined)
       this.chart.update();
   }
@@ -157,6 +150,28 @@ export class SpecificStatisticsComponent implements OnInit {
         label: '',
         backgroundColor: 'transparent',
         fill: 'origin',
+        hidden: true,
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+        hidden: true,
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+        hidden: true,
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+        hidden: true,
       },
       {
         data: [] = [],
@@ -169,16 +184,31 @@ export class SpecificStatisticsComponent implements OnInit {
         label: '',
         backgroundColor: 'transparent',
         fill: 'origin',
+        hidden: true,
       },
       {
         data: [] = [],
         label: '',
         backgroundColor: 'transparent',
         fill: 'origin',
+        hidden: true,
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+        hidden: true,
+      },
+      {
+        data: [] = [],
+        label: '',
+        backgroundColor: 'transparent',
+        fill: 'origin',
+        hidden: true,
       }
     ],
     labels: [] = [],
-
   };
 
   public lineChartOptions: ChartConfiguration['options'] = {
@@ -207,6 +237,16 @@ export class SpecificStatisticsComponent implements OnInit {
           }
         },
     },
+    plugins: {
+      legend: {
+        onClick: (evt, legendItem, legend) => {
+          legend.chart.data.datasets.forEach(dataset => {
+            if (dataset.label?.includes(legendItem.text.substring(legendItem.text.length - 8, legendItem.text.length)))
+              dataset.hidden = !dataset.hidden;
+          });
+          legend.chart.update();
+      }}
+    }
   };
 
   public lineChartType: ChartType = 'line';

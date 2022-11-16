@@ -6,13 +6,15 @@
     </div>
     <div class="col-lg-4 col-sm-8 pb-5">
       <h1>Statistic Info 📈</h1>
-      <p>This is the statistics info about a specific grade or student <br> It contains basic information about the shown graph i.e. average score, highest score & lowest score</p>
-      <h3 *ngIf="info.name !== ''">Stats for {{info.name}}</h3>
-      <h4 *ngIf="info.name === ''"><i>Select grade or student to show stats</i></h4>
-      <h2 class="d-inline">🧮</h2> Average score: <b>{{info.average}}</b> <br>
-      <h2 class="d-inline">🎢</h2> Highest score: <b>{{info.highest}}</b> <br>
-      <h2 class="d-inline">📏</h2> Lowest score: <b>{{info.lowest}}</b> <br>
-      <h2 class="d-inline">🍀</h2> Trend: <b>{{info.trend}}</b> <br>
+      <p>This is the statistics info about a specific grade or student <br>
+        It contains basic information about the shown graph i.e. average score, highest score & lowest score <br>
+      The trend covers the percentage increase or decrease from the latest week compared to the week before that</p>
+      <h3 *ngIf="info.name !== ''">Average stats for {{info.name}}</h3>
+      <h4 *ngIf="info.name === ''"><em>Select grade or student to show stats</em></h4>
+      <h2 class="d-inline">🧮</h2> Average score: <strong>{{info.average}}</strong> <br>
+      <h2 class="d-inline">🎢</h2> Highest score: <strong>{{info.highest}}</strong> <br>
+      <h2 class="d-inline">📏</h2> Lowest score: <strong>{{info.lowest}}</strong> <br>
+      <h2 class="d-inline">🍀</h2> Weekly Trend: <strong>{{info.trend}}</strong> <br>
     </div>
   </div>
 </div>
