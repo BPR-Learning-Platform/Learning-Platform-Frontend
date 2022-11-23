@@ -9,9 +9,12 @@ export class SpinnerComponent implements OnInit {
 
   @Input() message = '';
 
-  constructor() { }
+  constructor() {
+    // This is left empty on purpose, as the spinner component doesn't require any logic
+  }
 
   ngOnInit(): void {
+    // This is left empty on purpose, as the spinner component doesn't require any logic
   }
 
 }

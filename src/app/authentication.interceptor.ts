@@ -21,11 +21,11 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      tap(
-        (event) => {},
-        (error) => {
-          if (error instanceof HttpErrorResponse) {
-            switch (error.status) {
+      tap({
+        next: () => {},
+        error: err => {
+          if (err instanceof HttpErrorResponse) {
+            switch (err.status) {
               case 401:
               case 403:
                 this.authService.logout();
@@ -36,7 +36,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             }
           }
         }
-      )
-    );
+      }));
   }
 }

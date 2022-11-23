@@ -7,79 +7,79 @@ export function getWeekNumber(timeStamp: string): string{
 
   return "Week " + Math.ceil(days / 7);
 }
-
+let initialArray: [] = []
 export const lineChartData: ChartConfiguration['data'] = {
   datasets: [
     {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
     },
     {
-      data: [] = [],
-      label: '',
-      backgroundColor: 'transparent',
-      fill: 'origin',
-      hidden: true,
-    },
-    {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
-      label: '',
-      backgroundColor: 'transparent',
-      fill: 'origin',
-    },
-    {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
+      data: initialArray,
+      label: '',
+      backgroundColor: 'transparent',
+      fill: 'origin',
+    },
+    {
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     },
     {
-      data: [] = [],
+      data: initialArray,
+      label: '',
+      backgroundColor: 'transparent',
+      fill: 'origin',
+      hidden: true,
+    },
+    {
+      data: initialArray,
       label: '',
       backgroundColor: 'transparent',
       fill: 'origin',
       hidden: true,
     }
   ],
-  labels: [] = [],};
+  labels: initialArray,};
 
 export const lineChartOptions: ChartConfiguration['options'] = {
   elements: {
