@@ -10,6 +10,7 @@ const baseUrl = environment.learningPlatformApiUrl;
 @Injectable({
   providedIn: 'root'
 })
+
 export class LpRestService {
 
   constructor(private http: HttpClient) { }

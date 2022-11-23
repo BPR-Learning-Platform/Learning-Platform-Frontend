@@ -3,7 +3,7 @@ import {LpRestService} from "../../services/lp-rest.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {LPTask, LPTaskScore} from "../../models/lptask.model";
 import {Router} from "@angular/router";
-import { emojisplosion, emojisplosions } from "emojisplosion";
+import { emojisplosions } from "emojisplosion/src/emojisplosions";
 
 interface Alert {
   type: string;
@@ -44,7 +44,7 @@ export class TaskComponent implements OnInit {
       emojiCount: () => Math.random() * 4 + 2,
       emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🦄'],
       physics: {
-        gravity: 0.3,
+        gravity: 0.2,
         rotationDeceleration: 0.99,
       },
       uniqueness: 3,

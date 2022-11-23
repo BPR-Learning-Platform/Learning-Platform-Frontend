@@ -42,9 +42,8 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   login(): void {
-    let email = this.f['email'].value
-    let password = this.f['password'].value
-    // @ts-ignore
+    let email = this.f['email'].value!;
+    let password = this.f['password'].value!;
     this.authenticationService.login(email.toLowerCase(), password).subscribe({
       next: () => {
         if (this.authenticationService.isUserRole("T"))
