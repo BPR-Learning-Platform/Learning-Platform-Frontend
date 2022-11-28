@@ -26,7 +26,7 @@ export class TaskComponent implements OnInit {
 
   tasks: Array<LPTask> = [];
   alertToShow?: Alert = undefined;
-  taskIndex: number = 0; answer = ''; showHint: boolean = false;
+  taskIndex: number = 0; answer = ''; showHint: boolean = false; error: any = undefined;
   correct: number[] = [];
 
   constructor(private lpRestService: LpRestService,
@@ -34,8 +34,11 @@ export class TaskComponent implements OnInit {
               private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    if (!this.authService.isUserRole("S"))
+    if (this.authService.isUserRole("T"))
       this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
+    if (this.authService.isUserRole("A"))
+      this.router.navigateByUrl("/create-user").then(() => window.location.reload());
+
     this.getTasks();
   }
 
@@ -71,8 +74,10 @@ export class TaskComponent implements OnInit {
     const taskIds = [];
     for (let task of this.tasks)
       taskIds.push(task.taskId);
-    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, this.getScore(), taskIds).subscribe(res => {
-      this.tasks = res;
+    this.lpRestService.getTasks(this.authService.getCurrentUserId()!, this.getScore(), taskIds)
+      .subscribe({
+        next: res => this.tasks = res,
+        error: err => this.error = err.statusText
     });
     this.reset();
   }
