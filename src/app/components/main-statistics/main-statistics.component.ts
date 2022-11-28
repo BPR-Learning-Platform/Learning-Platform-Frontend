@@ -22,7 +22,7 @@ export class MainStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authenticationService.isUserRole("T"))
+    if (this.authenticationService.isUserRole("S"))
       this.router.navigateByUrl("/").then(() => window.location.reload());
   }
 

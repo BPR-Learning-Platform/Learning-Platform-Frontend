@@ -34,6 +34,10 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.authenticationService.isUserRole("S"))
+      this.router.navigateByUrl("/").then(() => window.location.reload());
+    if (this.authenticationService.isUserRole("T"))
+      this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
     this.getGrades();
   }
 

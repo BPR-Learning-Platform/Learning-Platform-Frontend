@@ -27,8 +27,10 @@ export class GradeStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authenticationService.isUserRole("T"))
+    if (this.authenticationService.isUserRole("S"))
       this.router.navigateByUrl("/").then(() => window.location.reload());
+    if (this.authenticationService.isUserRole("A"))
+      this.router.navigateByUrl("/create-user").then(() => window.location.reload());
     this.getAllGrades();
   }
 
@@ -41,8 +43,8 @@ export class GradeStatisticsComponent implements OnInit {
 
   onGradeSelected(value: string) {
     this.gradeSelected = value !== "default";
-    if(this.gradeSelected){
-      this.lpRestService.getSpecificGradeStatistic(value).subscribe(
+    if(!this.gradeSelected) return;
+    this.lpRestService.getSpecificGradeStatistic(value).subscribe(
         (data) => {
           let grade: AssignedGrades = this.assignedGrades.find(grade => grade.gradeId === value)!;
           let label = grade.gradeName;
@@ -52,7 +54,6 @@ export class GradeStatisticsComponent implements OnInit {
           this.updateLine(data.map(statistic => statistic.score.m), label + " Multiplication", 3);
           this.updateLine(data.map(statistic => statistic.score.d), label + " Division", 4);
           this.updateLabel(data.map(statistic => getWeekNumber(statistic.timeStamp)));
-
 
           this.lpRestService.getAllGradesStatistics(value, grade.step).subscribe(
             (stat) => {
@@ -64,10 +65,8 @@ export class GradeStatisticsComponent implements OnInit {
               this.updateLine(stat.map(statistic => statistic.score.d), label + " Division", 9);
             }
           );
+        });
 
-        }
-      );
-    }
     for (let i = 0; i < 5; i++) {
       this.updateLine([],"", i);
     }
@@ -75,14 +74,14 @@ export class GradeStatisticsComponent implements OnInit {
 
   updateLabel(labels: any[]): void{
     this.lineChartData.labels = labels;
-    if (this.chart !== undefined)
-      this.chart.update();
+    if (this.chart === undefined) return;
+    this.chart.update();
   }
   updateLine(data: any[], label: string, type: number): void {
     this.lineChartData.datasets[type].data = data;
     this.lineChartData.datasets[type].label = label;
-    if (this.chart !== undefined)
-      this.chart.update();
+    if (this.chart === undefined) return;
+    this.chart.update();
   }
 
   public lineChartType: ChartType = 'line';

@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.isUserLoggedIn()) {
       if (this.authenticationService.isUserRole("T"))
         this.router.navigateByUrl("/main-statistics").then(() => window.location.reload());
+      if(this.authenticationService.isUserRole("A"))
+          this.router.navigateByUrl("/create-user").then(() => window.location.reload());
       else
         this.router.navigateByUrl("/").then(() => window.location.reload());
     }
@@ -42,8 +44,8 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   login(): void {
-    let email = this.f['email'].value!;
-    let password = this.f['password'].value!;
+    let email = this.f['email'].value!
+    let password = this.f['password'].value!
     this.authenticationService.login(email.toLowerCase(), password).subscribe({
       next: () => {
         if (this.authenticationService.isUserRole("T"))
