@@ -43,31 +43,21 @@ export class GradeStatisticsComponent implements OnInit {
 
   onGradeSelected(value: string) {
     this.gradeSelected = value !== "default";
-    if(!this.gradeSelected) return;
-    this.lpRestService.getSpecificGradeStatistic(value).subscribe(
+    if (this.gradeSelected) {
+      this.lpRestService.getSpecificGradeStatistic(value).subscribe(
         (data) => {
           let grade: AssignedGrades = this.assignedGrades.find(grade => grade.gradeId === value)!;
-          let label = grade.gradeName;
-          this.updateLine(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", 0);
-          this.updateLine(data.map(statistic => statistic.score.a), label + " Addition", 1);
-          this.updateLine(data.map(statistic => statistic.score.s), label + " Subtraction", 2);
-          this.updateLine(data.map(statistic => statistic.score.m), label + " Multiplication", 3);
-          this.updateLine(data.map(statistic => statistic.score.d), label + " Division", 4);
+          this.updateLines(data, grade.gradeName, 0);
           this.updateLabel(data.map(statistic => getWeekNumber(statistic.timeStamp)));
 
           this.lpRestService.getAllGradesStatistics(value, grade.step).subscribe(
             (stat) => {
-              let label = "Step " + grade.step;
-              this.updateLine(stat.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", 5);
-              this.updateLine(stat.map(statistic => statistic.score.a), label + " Addition", 6);
-              this.updateLine(stat.map(statistic => statistic.score.s), label + " Subtraction", 7);
-              this.updateLine(stat.map(statistic => statistic.score.m), label + " Multiplication", 8);
-              this.updateLine(stat.map(statistic => statistic.score.d), label + " Division", 9);
+              this.updateLines(stat, "Step " + grade.step, 5);
             }
           );
         });
-
-    for (let i = 0; i < 5; i++) {
+    }
+    for (let i = 0; i < 10; i++) {
       this.updateLine([],"", i);
     }
   }
@@ -77,6 +67,15 @@ export class GradeStatisticsComponent implements OnInit {
     if (this.chart === undefined) return;
     this.chart.update();
   }
+
+  updateLines(data: any[], label: string, offset: number){
+    this.updateLine(data.map(statistic => (statistic.score.a + statistic.score.m + statistic.score.s + statistic.score.d) / 4), label + " Average", offset);
+    this.updateLine(data.map(statistic => statistic.score.a), label + " Addition", offset + 1);
+    this.updateLine(data.map(statistic => statistic.score.s), label + " Subtraction", offset + 2);
+    this.updateLine(data.map(statistic => statistic.score.m), label + " Multiplication", offset + 3);
+    this.updateLine(data.map(statistic => statistic.score.d), label + " Division", offset + 4);
+  }
+
   updateLine(data: any[], label: string, type: number): void {
     this.lineChartData.datasets[type].data = data;
     this.lineChartData.datasets[type].label = label;
