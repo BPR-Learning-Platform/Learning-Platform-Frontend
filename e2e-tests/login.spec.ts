@@ -1,47 +1,62 @@
 ﻿import { test, expect } from '@playwright/test';
+import { LoginPage } from "./pages/loginPage";
 
 test('login with wrong email or password', async ({ page }) => {
-  await page.goto('http://localhost:4200/#/login');
+  const loginPage = new LoginPage(page);
 
-  await page.locator('input[type="email"]').click();
-  await page.locator('input[type="email"]').fill('nonexistant@student.com');
-
-  await page.locator('input[type="password"]').click();
-  await page.locator('input[type="password"]').fill('passwordthatisnotcorrect');
-
-  await page.locator('button:has-text("Sign in")').click();
+  await loginPage.goto();
+  await loginPage.email('nonexistant@student.com');
+  await loginPage.password('passwordthatisnotcorrect');
+  await loginPage.login();
 
   await expect(page.locator('text=Couldn\'t log you in with those credentials, please try again.')).toBeVisible();
 });
 
 test('Invalid data in submit forms, gives error text', async ({ page }) => {
-  await page.goto('http://localhost:4200/#/login');
+  const loginPage = new LoginPage(page);
 
-  await page.locator('input[type="email"]').click();
+  await loginPage.goto();
+  await loginPage.email('student.com');
 
-  await page.locator('input[type="email"]').fill('student.com');
-  await page.locator('html').click();
-
+  await page.keyboard.press('Tab');
   await expect(page.locator('text=Username must be an E-mail')).toBeVisible();
 
-  await page.locator('input[type="password"]').click();
+  await loginPage.password('1234');
 
-  await page.locator('input[type="password"]').fill('1234');
-  await page.locator('html').click();
-
+  await page.keyboard.press('Tab');
   await expect(page.locator('text=Password must have at least 8 characters')).toBeVisible();
-});
+  });
 
-test('login sucessfully', async ({ page }) => {
-  await page.goto('http://localhost:4200/#/login');
+test('login with student successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-  await page.locator('input[type="email"]').click();
-  await page.locator('input[type="email"]').fill('student20@student.com');
+  await loginPage.goto();
+  await loginPage.email('student20@student.com');
+  await loginPage.password('12345678');
+  await loginPage.login();
 
-  await page.locator('input[type="password"]').click();
-  await page.locator('input[type="password"]').fill('12345678');
-
-  await page.locator('button:has-text("Sign in")').click();
   await expect(page).toHaveURL('http://localhost:4200/#/task');
-  await expect(page.locator('text=Hi👋 Student20')).toBeVisible();
+  await expect(page.locator('text=Hi👋 Chamilla')).toBeVisible();
+});
+test('login with teacher successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.email('teacher1@teacher.com');
+  await loginPage.password('12345678');
+  await loginPage.login();
+
+  await expect(page).toHaveURL('http://localhost:4200/#/main-statistics');
+  await expect(page.locator('text=Hi👋 Mogens')).toBeVisible();
+});
+test('login with administrator successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.email('admin1@admin.com');
+  await loginPage.password('12345678');
+  await loginPage.login();
+
+  await expect(page).toHaveURL('http://localhost:4200/#/create-user');
+  await expect(page.locator('text=Hi👋 Admin')).toBeVisible();
 });
