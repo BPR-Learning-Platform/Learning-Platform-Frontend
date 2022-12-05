@@ -10,7 +10,7 @@
       </h2>
     </div>
     <div *ngIf="tasks[taskIndex]" class="w-75 container">
-      <h3 class="text-center">Please solve: <br>{{tasks[taskIndex].exercise}} </h3>
+      <h3 class="text-center" id="taskText">Please solve: <br>{{tasks[taskIndex].exercise}} </h3>
       <input required
              autocapitalize="none"
              [(ngModel)]="answer"
