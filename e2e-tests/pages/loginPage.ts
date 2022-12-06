@@ -32,4 +32,10 @@ export class LoginPage {
   async login(){
     await this.signInButton.click();
   }
+
+  async loginWithCredentials(email: string, password: string){
+    await this.email(email);
+    await this.password(password);
+    await this.login();
+  }
 }
