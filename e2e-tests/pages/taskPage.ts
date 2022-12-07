@@ -2,6 +2,7 @@ import {
   Locator,
   Page
 } from "@playwright/test";
+import {solveQuestion} from "../helpers/solveTask";
 
 export class TaskPage {
   readonly page: Page;
@@ -14,7 +15,7 @@ export class TaskPage {
     this.questionField = page.locator('h3:has-text("Please solve")');
     this.answerField = page.locator('[placeholder="Answer here ✅"]');
     this.alertBanner = page.locator('ngb-alert');
-    this.logoutButton = page.locator('button:has-text("Sign in")');
+    this.logoutButton = page.locator('text=Logout');
   }
 
   async goto() {
@@ -32,9 +33,24 @@ export class TaskPage {
     await this.answerField.press('Enter');
   }
 
+  async answerCorrectly(){
+    let answer = solveQuestion(await this.getQuestion());
+    await this.answerField.click();
+    await this.answerField.fill(answer.toString());
+    await this.answerField.press('Enter');
+  }
+
+  async answerIncorrectly(){
+    let answer = solveQuestion(await this.getQuestion()) - 1;
+    await this.answerField.click();
+    await this.answerField.fill(answer.toString());
+    await this.answerField.press('Enter');
+  }
+
   async alertMessage(): Promise<string> {
     return await this.alertBanner.innerText();
   }
+
   async logout(){
     await this.logoutButton.click();
   }

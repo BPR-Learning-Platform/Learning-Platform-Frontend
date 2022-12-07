@@ -16,4 +16,4 @@ export function solveQuestion(str: string) {
   const [num1, num2] = operationStr.split(operator)
   // @ts-ignore
   return operatorToFunction[operator](num1, num2);
-};
+}

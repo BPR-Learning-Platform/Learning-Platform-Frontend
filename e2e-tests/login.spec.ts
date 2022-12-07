@@ -5,9 +5,7 @@ test('login with wrong email or password', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.email('nonexistant@student.com');
-  await loginPage.password('passwordthatisnotcorrect');
-  await loginPage.login();
+  await loginPage.loginWithCredentials('nonexistant@student.com', 'passwordthatisnotcorrect');
 
   await expect(page.locator('text=Couldn\'t log you in with those credentials, please try again.')).toBeVisible();
 });
@@ -31,9 +29,7 @@ test('login with student successfully', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.email('student20@student.com');
-  await loginPage.password('12345678');
-  await loginPage.login();
+  await loginPage.loginWithCredentials('student20@student.com', '12345678');
 
   await expect(page).toHaveURL('http://localhost:4200/#/task');
   await expect(page.locator('text=Hi👋 Chamilla')).toBeVisible();
@@ -42,9 +38,7 @@ test('login with teacher successfully', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.email('teacher1@teacher.com');
-  await loginPage.password('12345678');
-  await loginPage.login();
+  await loginPage.loginWithCredentials('teacher1@teacher.com', '12345678');
 
   await expect(page).toHaveURL('http://localhost:4200/#/main-statistics');
   await expect(page.locator('text=Hi👋 Mogens')).toBeVisible();
@@ -53,9 +47,7 @@ test('login with administrator successfully', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.goto();
-  await loginPage.email('admin1@admin.com');
-  await loginPage.password('12345678');
-  await loginPage.login();
+  await loginPage.loginWithCredentials('admin1@admin.com', '12345678');
 
   await expect(page).toHaveURL('http://localhost:4200/#/create-user');
   await expect(page.locator('text=Hi👋 Admin')).toBeVisible();
